@@ -38,61 +38,42 @@ public class ClientServiceTest {
   @Test
   public void testCreerClientOk(){
 	  // Given
-	  String nom = "Mezioune";
-	  String prenom = "Anais";
-	  String email = "anais.mezioune@gmail.com";
+	  String nom = "UnNom";
+	  String prenom = "UnPrenom";
+	  String email = "unprenom.unnom@gmail.com";
 	  
 	  // When
 	  try {
 		  Client client = ClientService.creerClient(email, nom, prenom);
+		  // Then
 		  assertEquals(nom, client.nom);
 		  assertEquals(prenom, client.prenom);
 		  assertEquals(email, client.email);
 	  } catch (MetierException e) {
-		  System.out.println(e.getMessage());
+		  // System.out.println(e.getMessage());
+		  assertEquals("", e.getMessage());
 	  }
   }
   
-  @Test
-  public void testCreerClientScenarioNominal(){
-    try {
-      Client client = ClientService.creerClient("pierjeanl@gmail.com","landrein","pierjean");
-      assertNotNull(client);
-      assertEquals(client.nom,"landrein");
-      assertEquals(client.prenom,"pierjean");
-      assertEquals(client.email,"pierjeanl@gmail.com");
-    } catch (MetierException e) {
-      assertTrue(false);
-    }
-  }
-
+  /* ****************************** Nom ****************************** */
   @Test
   public void testCreerClientNomNull(){
-    try {
-      // Client client = ClientService.creerClient("pierjeanl@gmail.com",null,"pierjean");
-      ClientService.creerClient("pierjeanl@gmail.com",null,"pierjean");
+	  // When
+	  try {
+      ClientService.creerClient("unprenom.unnom@gmail.com",null,"UnPrenom");
+      // Then
       assertTrue(false);
     } catch (MetierException e) {
-      assertEquals("Le nom ne peut être vide",e.getMessage());
-    }
-  }
-  
-  @Test
-  public void testCreerClientNomVide(){
-    try {
-      ClientService.creerClient("pierjeanl@gmail.com","","pierjean");
-      assertTrue(false);
-     } catch (MetierException e) {
       assertEquals("Le nom ne peut être vide",e.getMessage());
     }
   }
   
   @Test
   public void testCreerClientNomRempliEspace(){
-   
-    	String email = "pierjeanl@gmail.com";
-    	String nom = "   gfd   ";
-    	String prenom = "pierjean";
+	  	// Given
+    	String email = "unprenom.unnom@gmail.com";
+    	String nom = "   UnNom   ";
+    	String prenom = "UnPrenom";
     	String nom_valide = nom.trim();
     	
     	//When
@@ -108,39 +89,86 @@ public class ClientServiceTest {
   }
   
   @Test
-  public void testCreerClientPrenomNull(){
-    try {
-      Client client = ClientService.creerClient("pierjeanl@gmail.com","landrein",null);
+  public void testCreerClientNomVide(){
+    // When
+	 try {
+      ClientService.creerClient("unprenom.unnom@gmail.com","","UnPrenom");
+      // Then
       assertTrue(false);
-    } catch (MetierException e) {
-      assertEquals("Le prenom ne peut être vide",e.getMessage());
+     } catch (MetierException e) {
+      assertEquals("Le nom ne peut être vide",e.getMessage());
     }
   }
-
+  
+  /* ****************************** Prénom ****************************** */
+  @Test
+  public void testCreerClientPrenomNull(){
+    // When
+	 try {
+      ClientService.creerClient("unprenom.unnom@gmail.com","UnNom",null);
+      // Then
+      assertTrue(false);
+    } catch (MetierException e) {
+      assertEquals("Le prénom ne peut être vide",e.getMessage());
+    }
+  }
+  
+  @Test
+  public void testCreerClientPrenomRempliEspace(){
+	  // Given
+	  String email = "unprenom.unnom@gmail.com";
+	  String nom = "UnNom";
+	  String prenom = "     UnPrenom      ";
+	  String prenom_valide = prenom.trim();
+	  
+	  // When
+	  try{
+		Client client = ClientService.creerClient(email, nom, prenom); 
+		// Then
+		assertEquals(email, client.email);
+		assertEquals(nom, client.nom);
+		assertEquals(prenom_valide, client.prenom);
+	  } catch(MetierException e){
+		  assertTrue(false);
+	  }
+  }
+  
   @Test
   public void testCreerClientPrenomVide(){
-    try {
-      Client client = ClientService.creerClient("pierjeanl@gmail.com","landrein","");
+    // When
+	 try {
+      Client client = ClientService.creerClient("unprenom.unnom@gmail.com","UnNom","");
+      // Then
       assertTrue(false);
     } catch (MetierException e) {
-      assertEquals("Le prenom ne peut être vide",e.getMessage());
+      assertEquals("Le prénom ne peut être vide",e.getMessage());
     }
   }
-
+  
+/* ****************************** Mail ****************************** */
   @Test
   public void testCreerClientMailNull(){
-    try {
-      Client client = ClientService.creerClient(null,"landrein","pierjean");
-      assertTrue(false);
-    } catch (MetierException e) {
-      assertEquals("L'email ne peut être vide",e.getMessage());
-    }
+	  // Given
+	  String email = null;
+	  String nom = "UnNom";
+	  String prenom = "UnPrenom";
+	  
+	  //When
+	  try{
+		  ClientService.creerClient(email, nom, prenom);
+		  // Then
+		  assertTrue(false);
+	  } catch(MetierException e){
+		  assertEquals("Le mail ne peut être vide", e.getMessage());
+	  }
   }
-
+  
   @Test
   public void testCreerClientMailVide(){
-    try {
+    // When
+	try {
       Client client = ClientService.creerClient("","landrein","pierjean");
+      // Then
       assertTrue(false);
     } catch (MetierException e) {
       assertEquals("L'email ne peut être vide",e.getMessage());
@@ -149,8 +177,10 @@ public class ClientServiceTest {
 
   @Test
   public void testCreerClientMailInvalid(){
-    try {
+    // When
+	try {
       Client client = ClientService.creerClient("hgdljgfod","landrein","pierjean");
+      // Then
       assertTrue(false);
     } catch (MetierException e) {
       assertEquals("L'email n'est pas valide",e.getMessage());

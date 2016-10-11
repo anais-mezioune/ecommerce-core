@@ -31,7 +31,7 @@ public class ClientService {
             throw new MetierException("Le nom ne peut être vide");
         }
         if (prenom == null || prenom.isEmpty()) {
-            throw new MetierException("Le prenom ne peut être vide");
+            throw new MetierException("Le prénom ne peut être vide");
         }
 
         Client client = new Client();
