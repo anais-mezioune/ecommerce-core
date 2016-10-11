@@ -22,6 +22,7 @@ public class ClientServiceTest {
     System.out.println("apres la classe"+System.currentTimeMillis());
     System.out.flush();
   }
+  
   @Before
   public void avantToutTest(){
     System.out.println("avant tout test"+System.currentTimeMillis());
@@ -33,6 +34,25 @@ public class ClientServiceTest {
     System.out.println("apres tout test"+System.currentTimeMillis());
     System.out.flush();
   }
+  
+  @Test
+  public void testCreerClientOk(){
+	  // Given
+	  String nom = "Mezioune";
+	  String prenom = "Anais";
+	  String email = "anais.mezioune@gmail.com";
+	  
+	  // When
+	  try {
+		  Client client = ClientService.creerClient(email, nom, prenom);
+		  assertEquals(nom, client.nom);
+		  assertEquals(prenom, client.prenom);
+		  assertEquals(email, client.email);
+	  } catch (MetierException e) {
+		  System.out.println(e.getMessage());
+	  }
+  }
+  
   @Test
   public void testCreerClientScenarioNominal(){
     try {
@@ -49,22 +69,45 @@ public class ClientServiceTest {
   @Test
   public void testCreerClientNomNull(){
     try {
-      Client client = ClientService.creerClient("pierjeanl@gmail.com",null,"pierjean");
+      // Client client = ClientService.creerClient("pierjeanl@gmail.com",null,"pierjean");
+      ClientService.creerClient("pierjeanl@gmail.com",null,"pierjean");
       assertTrue(false);
     } catch (MetierException e) {
       assertEquals("Le nom ne peut être vide",e.getMessage());
     }
   }
+  
   @Test
   public void testCreerClientNomVide(){
     try {
-      Client client = ClientService.creerClient("pierjeanl@gmail.com","","pierjean");
+      ClientService.creerClient("pierjeanl@gmail.com","","pierjean");
       assertTrue(false);
      } catch (MetierException e) {
       assertEquals("Le nom ne peut être vide",e.getMessage());
     }
   }
-
+  
+  @Test
+  public void testCreerClientNomRempliEspace(){
+    try {
+    	String email = "pierjeanl@gmail.com";
+    	String nom = "      ";
+    	String prenom = "pierjean";
+    	String str_nom = nom.trim();
+    	
+    	ClientService.creerClient(email, str_nom, prenom);
+    	
+    	if(str_nom.isEmpty()){
+    		assertTrue(false);
+    	} else{
+    		assertTrue(true);
+    	}
+      
+     } catch (MetierException e) {
+    	 assertEquals("Le nom doit être renseigné",e.getMessage());
+    }
+  }
+  
   @Test
   public void testCreerClientPrenomNull(){
     try {
