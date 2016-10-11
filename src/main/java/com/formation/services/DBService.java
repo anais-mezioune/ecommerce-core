@@ -18,7 +18,7 @@ public class DBService {
 
     public static void configure(String ip) throws MetierException{
         if(ip == null || ip.isEmpty()){
-            throw new MetierException("L ip ne peut être vide où nul");
+            throw new MetierException("L ip ne peut être vide ou nul");
         }
         ipAddress = ip;
         logger.info("L'adresse de la base de données est fixée à " + ipAddress);

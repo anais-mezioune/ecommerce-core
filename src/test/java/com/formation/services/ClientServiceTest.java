@@ -89,23 +89,22 @@ public class ClientServiceTest {
   
   @Test
   public void testCreerClientNomRempliEspace(){
-    try {
+   
     	String email = "pierjeanl@gmail.com";
-    	String nom = "      ";
+    	String nom = "   gfd   ";
     	String prenom = "pierjean";
-    	String str_nom = nom.trim();
+    	String nom_valide = nom.trim();
     	
-    	ClientService.creerClient(email, str_nom, prenom);
-    	
-    	if(str_nom.isEmpty()){
-    		assertTrue(false);
-    	} else{
-    		assertTrue(true);
+    	//When
+    	try {
+    		Client client = ClientService.creerClient(email, nom, prenom);
+    		// Then
+    		assertEquals(email, client.email);
+    		assertEquals(nom_valide, client.nom);
+    		assertEquals(prenom, client.prenom);
+    	} catch (MetierException e) {
+    		assertFalse(true);
     	}
-      
-     } catch (MetierException e) {
-    	 assertEquals("Le nom doit être renseigné",e.getMessage());
-    }
   }
   
   @Test

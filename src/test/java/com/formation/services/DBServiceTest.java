@@ -8,7 +8,7 @@ import static org.junit.Assert.*;
 
 public class DBServiceTest {
 
-		public void testConfigure(){
+		public void testConfigureWithIpNull(){
 			try {
 				DBService.configure(null);
 				assertTrue(false);
