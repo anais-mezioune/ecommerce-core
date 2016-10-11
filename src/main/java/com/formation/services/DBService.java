@@ -1,5 +1,6 @@
 package com.formation.services;
 
+import com.formation.exceptions.MetierException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -13,11 +14,13 @@ public class DBService {
     private static DBService instance;
 
     private static String ipAddress = "127.0.0.1";
-    private Connection connection;
+    private static Connection connection;
 
-    public static void configure(String ip) {
+    public static void configure(String ip) throws MetierException{
+        if(ip == null || ip.isEmpty()){
+            throw new MetierException("L ip ne peut être vide où nul");
+        }
         ipAddress = ip;
-
         logger.info("L'adresse de la base de données est fixée à " + ipAddress);
     }
 
@@ -57,13 +60,20 @@ public class DBService {
         return createStatement().executeQuery(requete);
     }
 
-    public void close() {
+    public static void close() {
         if (connection != null) {
             try {
                 connection.close();
             } catch (SQLException e) {
                 logger.error("Une erreur est survenue à la fermeture de la connexion : " + e.getMessage(), e);
             }
+        }
+    }
+
+    public static void reset() {
+        if (instance != null) {
+            close();
+            instance = null;
         }
     }
 }
