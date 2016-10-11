@@ -1,5 +1,6 @@
 package com.formation.services;
 
+import com.formation.exceptions.MetierException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -13,11 +14,20 @@ public class DBService {
     private static DBService instance;
 
     private static String ipAddress = "127.0.0.1";
+    private static String db = "ecommerce";
     private Connection connection;
 
-    public static void configure(String ip) {
-        ipAddress = ip;
+    public static void configure(String ip, String dbName) throws MetierException {
 
+        if(ip == null || ip.isEmpty()){
+            throw new MetierException("L'ip ne peut etre null ou vide");
+        }
+        if(dbName == null || dbName.isEmpty()){
+            throw new MetierException("Bouhou la DB ne peut pas être nulle ni vide");
+        }
+
+        ipAddress = ip;
+        db = dbName;
         logger.info("L'adresse de la base de données est fixée à " + ipAddress);
     }
 
@@ -28,12 +38,19 @@ public class DBService {
         return instance;
     }
 
+    public static void reset() {
+        if (instance != null) {
+            instance.close();
+        }
+        instance = null;
+    }
+
     private DBService() {
         try {
             Class.forName("com.mysql.jdbc.Driver");
 
             connection = DriverManager.getConnection(
-                    "jdbc:mysql://" + ipAddress + "/ecommerce?user=root&password=formation&useSSL=false");
+                    "jdbc:mysql://" + ipAddress + "/" + db + "?user=root&password=formation&useSSL=false");
         } catch (ClassNotFoundException e) {
             logger.error("Impossible de trouver le driver jdbc : " + e.getMessage(), e);
         } catch (SQLException e) {
