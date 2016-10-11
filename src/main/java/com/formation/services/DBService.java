@@ -15,6 +15,7 @@ public class DBService {
 
     private static String ipAddress = "127.0.0.1";
     private static String db = "ecommerce";
+
     private Connection connection;
 
     public static void configure(String ip, String dbName) throws MetierException {
@@ -23,12 +24,13 @@ public class DBService {
             throw new MetierException("L'ip ne peut etre null ou vide");
         }
         if(dbName == null || dbName.isEmpty()){
-            throw new MetierException("Bouhou la DB ne peut pas être nulle ni vide");
+            throw new MetierException("Le dbName ne peut pas être null ou vide");
         }
 
         ipAddress = ip;
         db = dbName;
         logger.info("L'adresse de la base de données est fixée à " + ipAddress);
+        logger.info("La base de données utilisée est " + db);
     }
 
     public static DBService getInstance() {
