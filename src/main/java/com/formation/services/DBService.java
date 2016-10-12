@@ -14,14 +14,22 @@ public class DBService {
     private static DBService instance;
 
     private static String ipAddress = "127.0.0.1";
+    private static String db = "ecommerce";
     private static Connection connection;
 
-    public static void configure(String ip) throws MetierException{
+    public static void configure(String ip, String dbName) throws MetierException {
+
         if(ip == null || ip.isEmpty()){
-            throw new MetierException("L ip ne peut être vide ou nul");
+            throw new MetierException("L'ip ne peut etre null ou vide");
         }
+        if(dbName == null || dbName.isEmpty()){
+            throw new MetierException("Le dbName ne peut pas être null ou vide");
+        }
+
         ipAddress = ip;
+        db = dbName;
         logger.info("L'adresse de la base de données est fixée à " + ipAddress);
+        logger.info("La base de données utilisée est " + db);
     }
 
     public static DBService getInstance() {
