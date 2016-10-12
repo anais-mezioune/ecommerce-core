@@ -16,6 +16,24 @@ public class DBServiceTest {
         // Given
         DBService.reset();
         String ip = "";
+        String dbName = "osef";
+
+        // When
+        try {
+            DBService.configure(ip, dbName);
+
+            assertFalse(true);
+        } catch (MetierException me) {
+            // Then
+            System.out.println(me.getMessage());
+            assertTrue(true);
+        }
+    }
+    @Test
+    public void testConfigureWhithEmptyDbName() {
+        // Given
+        DBService.reset();
+        String ip = "osef";
         String dbName = "";
 
         // When
@@ -35,6 +53,25 @@ public class DBServiceTest {
         // Given
         DBService.reset();
         String ip = null;
+        String dbName = "osef";
+
+        // When
+        try {
+            DBService.configure(ip, dbName);
+
+            assertFalse(true);
+        } catch (MetierException me) {
+            // Then
+            System.out.println(me.getMessage());
+            assertTrue(true);
+        }
+    }
+
+    @Test
+    public void testConfigureWhithNullDbName() {
+        // Given
+        DBService.reset();
+        String ip = "osef";
         String dbName = null;
 
         // When
