@@ -20,10 +20,10 @@ public class DBService {
     public static void configure(String ip, String dbName) throws MetierException {
 
         if(ip == null || ip.isEmpty()){
-            throw new MetierException("L'ip ne peut etre null ou vide");
+            throw new MetierException("L'ip ne peut être null ou vide");
         }
         if(dbName == null || dbName.isEmpty()){
-            throw new MetierException("Le dbName ne peut pas être null ou vide");
+            throw new MetierException("Le dbName ne peut pas être nul ou vide");
         }
 
         ipAddress = ip;

@@ -24,7 +24,9 @@ public class ProduitService {
             throw new MetierException("Le nom ne peut être vide");
         }
         if (prixUnitaire == null || prixUnitaire == 0) {
-            throw new MetierException("Le prix Unitaire ne peut etre égal à 0");
+            throw new MetierException("Le prix Unitaire ne peut être vide ");
+        } else if (prixUnitaire  < 0){
+        	 throw new MetierException("Le prix Unitaire ne peut être négatif");
         }
 
         Produit produit = new Produit();
