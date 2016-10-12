@@ -37,8 +37,8 @@ public class ClientService {
         Client client = new Client();
         client.id = UUID.randomUUID().toString();
         client.email = email;
-        client.nom = nom;
-        client.prenom = prenom;
+        client.nom = nom.trim();
+        client.prenom = prenom.trim();
         return client;
     }
 
